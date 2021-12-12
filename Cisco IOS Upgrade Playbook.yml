@@ -74,7 +74,7 @@
          - 'Source filename'
          - 'Destination filename'
        answer:
-         - '10.10.2.15'
+         - '10.10.2.243'
          - 'c1841-advipservicesk9-mz.151-4.M9.bin'
          - 'c1841-advipservicesk9-mz.151-4.M9.bin'
      vars:
