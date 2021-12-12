@@ -1,0 +1,130 @@
+---
+#Ansible Playbook to upgrade Cisco IOS
+
+- name: Upgrade CISCO IOS
+  hosts: 1841_TEST
+
+  vars:
+    upgrade_ios_version: 15.1(4)M9
+
+  tasks:
+    - name: CHECK CURRENT VERSION
+      ios_facts:
+
+    - debug:
+        msg:
+        - "Current version is {{ ansible_net_version }}"
+        - "Upgrade image is 15.1.4-M9"
+
+    - debug:
+        msg:
+        - "Image is not compliant and will be upgraded"
+
+      when: ansible_net_version != upgrade_ios_version
+
+## Create backup folder for today's date
+
+##- hosts: localhost
+
+##  tasks:
+##   - name: Get Ansible date/time facts
+##     setup:
+##       filter: "ansible_date_time"
+##       gather_subset: "!all"
+
+##   - name: Store DTG as fact
+##     set_fact:
+##       DTG: "{{ ansible_date_time.date }}"
+
+##   - name: Create Directory {{hostvars.localhost.DTG}}
+##     file:
+##      path: ~/network-programmability/backups/{{hostvars.localhost.DTG}}
+##      state: directory
+##  run_once: true
+
+## Backup Running Config
+
+- hosts: 1841_TEST
+
+  tasks:
+##   - name: Backup Running Config
+##     ios_command:
+##       commands: show run
+##     register: config
+
+##   - name: Save output to ~/network-programmability/backups/
+##     copy:
+##       content: "{{config.stdout[0]}}"
+##       dest: "~/network-programmability/backups/{{hostvars.localhost.DTG}}/{{ inventory_hostname }}"
+
+## SAVE the running Config
+
+##   - name: Save running config
+##     ios_config:
+##       save_when: always
+
+## Copy software to target device
+
+   - name: Copy Image // This could take up to 4 minutes
+     cli_command:
+       command: 'copy tftp: flash:'
+       check_all: True
+       prompt:
+         - 'Address or name of remote host'
+         - 'Source filename'
+         - 'Destination filename'
+       answer:
+         - '10.10.2.15'
+         - 'c1841-advipservicesk9-mz.151-4.M9.bin'
+         - 'c1841-advipservicesk9-mz.151-4.M9.bin'
+     vars:
+       ansible_command_timeout: 1200
+
+## Change the Boot Variable to the new image
+
+   - name: Change Boot Variable to the new image
+     ios_config:
+       commands:
+         - "no boot system flash c1841-adventerprisek9-mz.124-24.T.bin"
+         - "boot system flash c1841-advipservicesk9-mz.151-4.M9.bin"
+       save_when: always
+
+## Reload the Device
+
+   - name: Reload the Device
+     cli_command:
+       command: reload
+       prompt:
+         - confirm
+       answer:
+         - 'y'
+
+## Wait for the reachability to the device
+
+   - name: Wait for the Device to come back online
+     wait_for:
+       host: "{{ inventory_hostname }}"
+       port: 22
+       delay: 180
+     delegate_to: localhost
+
+## Check Current image
+
+   - name: Check Image Version
+     ios_facts:
+
+   - debug:
+       msg:
+       - "Current version is {{ ansible_net_version }}"
+
+   - name: ASSERT THAT THE IOS VERSION IS CORRECT
+
+     vars:
+       upgrade_ios_version: 15.1(4)M9
+
+     assert:
+       that:
+         - upgrade_ios_version == ansible_net_version
+   - debug:
+       msg:
+       - "Software Upgrade has been completed"
