@@ -1,0 +1,30 @@
+---
+
+#Ansible Playbook to test Nexus CLI connectivity and Capabilities
+
+- name: Playbook to remediate PCI Audit Findings on Cisco NXOS
+  hosts: nexuspe1
+  gather_facts: false
+  connection: local
+
+  vars:
+    cli:
+      username: admin
+      password: 
+      timeout: 30
+
+  tasks:
+
+    - name: Configure switch to disable services and console logging
+      nxos_config:
+         provider: "{{cli}}"
+         lines:
+          - vlan 900
+          - name ANSIBLE
+          
+      register: config
+         
+    - name: Check output
+      debug:
+        msg: "{{config}}"
+

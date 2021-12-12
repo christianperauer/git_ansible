@@ -1,0 +1,85 @@
+---
+
+- name: Demo ACI Playbook 
+  hosts: apic
+  connection: local
+  gather_facts: False
+  
+  vars: 
+    tenant: 'BOS-NEA'
+    vrf: 'test-nea-vrf'
+  tasks:
+   - name: configure tenant 
+     aci_tenant:
+       host: "{{ inventory_hostname }}"
+       username: "{{ username }}"
+       password: "{{ password }}"
+       state: "present"
+       validate_certs: False
+       tenant: "{{ tenant }}"
+
+   - name: configure application profile 
+     aci_ap:
+       host: "{{ inventory_hostname }}"
+       username: "{{ username }}"
+       password: "{{ password }}"
+       state: "present"
+       validate_certs: False
+       tenant: "{{ tenant }}"
+       ap: "{{ item }}"
+     with_items:
+       - ansible_app-ap
+
+   - name: configure tenant vrf 
+     aci_vrf:
+       host: "{{ inventory_hostname }}"
+       username: "{{ username }}"
+       password: "{{ password }}"
+       state: "present"
+       validate_certs: False
+       tenant: "{{ tenant }}"
+       vrf: "{{ vrf }}"
+       description: "{{ vrf }}"
+
+   - name: configure  bridge domain 
+     aci_bd:
+       host: "{{ inventory_hostname }}"
+       username: "{{ username }}"
+       password: "{{ password }}"
+       state: "present"
+       validate_certs: False
+       tenant: "{{ tenant }}"
+       bd: "{{ item }}"
+     with_items:
+       - "ansible_app-bd"
+# create 2 subnets tie to bridge domain
+   - name: configure tenant subnet 
+     aci_bd_subnet:
+       host: "{{ inventory_hostname }}"
+       username: "{{ username }}"
+       password: "{{ password }}"
+       state: "present"
+       validate_certs: False
+       tenant: "{{ tenant }}"
+       bd: "{{ item.bd }}"
+       gateway: "{{ item.gateway }}"
+       mask: "{{ item.mask }} "
+       scope: "{{ item.scope }}"
+     with_items:
+       - { bd: "ansible_app-bd", gateway: "10.1.1.1", mask: "24", scope: public}
+       - { bd: "ansible_app-bd", gateway: "10.1.2.1", mask: "24", scope: public}
+
+   - name: configure epg 
+     aci_epg:
+       host: "{{ inventory_hostname }}"
+       username: "{{ username }}"
+       password: "{{ password }}"
+       state: "present"
+       validate_certs: False
+       tenant: "{{ tenant }}"
+       bd: "{{ item.bd }}"
+       epg: "{{ item.epg}}"
+       ap: "{{ item.ap }}"
+       description : app EPG test with ansible use case
+     with_items:
+       - { bd: "ansible_app-bd", ap: "ansible_app-ap", epg: "ansible_app-epg"}

@@ -1,0 +1,27 @@
+---
+
+#Ansible Playbook to test Nexus CLI connectivity and Capabilities
+
+  - name: Playbook to Add / Modify VLANs and Enable NXAPI
+    hosts: NX_OS_TEST
+    gather_facts: no
+    tasks:
+ 
+      - name: Configure switch to add / modify VLANs
+        nxos_config:
+          lines:
+            - vlan 900
+            - name ANSIBLE
+          match: none
+          timeout: 30
+        register: config
+         
+      - name: Check output
+        debug:
+          var: config
+          
+      - name: Enable NX-API
+        nxos_nxapi:
+          enable_http: yes
+          enable_https: yes
+        when: ansible_network_os == 'cisco.nxos.nxos'

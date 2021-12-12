@@ -1,0 +1,45 @@
+---
+
+- hosts: 1841_TEST
+  gather_facts: no
+  tasks:
+  - name: Configure Login Banner
+    ios_banner:
+      banner: login
+      text: |
+        *******************************************************************************
+        *          This system is a private computer/communication facility           *
+        *                     Access is for authorized users only!                    *
+        * Individuals using this computer system without authority, or in excess of   *
+        * their authority, are subject to having all of their activities on this      *
+        * system monitored and recorded by system personnel.  In the course of        *
+        * monitoring individuals for improperly using this system the activities of   *
+        * authorized users may also be monitored. Anyone using this system expressly  *
+        * consents to such monitoring and is advised that such monitoring reveals     *
+        * possible evidence of criminal or malicious activity, system personnel may   *
+        * provide the evidence to law enforcement officials for criminal and/or civil *
+        * proceedings                                                                 *
+        *******************************************************************************
+      state: present
+
+  - name: Configure Banner MOTD
+    ios_banner:
+      banner: motd
+      text: |
+        ****************************************************************************
+        *                This is a BCN Networks managed device                     *
+        *                                                                          *
+        * Changes to the device configuration should be authorized through the     *
+        * processes outlined by the ITS Network Services team.                     *
+        ****************************************************************************
+      state: present
+
+  - name: Verify Banners configuration
+    ios_command:
+      commands:
+        - show run | sec banner
+    register: sh_outputs
+  
+  - name: Show Value of new Banners if any
+    debug:
+      msg: "{{sh_outputs}}"
