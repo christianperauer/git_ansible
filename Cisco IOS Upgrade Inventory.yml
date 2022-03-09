@@ -1,0 +1,46 @@
+---
+global_variables:
+  # enter global variables here, which apply to all hosts...
+  # all variable values here should be constants (NetBrain Intellisense Variables are not supported)
+  # sample:
+  ansible_connection: network_cli
+
+host_groups:
+  - name: ungrouped  # ansible default host group "ungrouped", for all hosts that are not in any other host groups
+    group_variables:
+      # enter group variables here...
+      # all variable values here should be constants (NetBrain Intellisense Variables are not supported)
+      # sample:
+      # ansible_network_os: ios
+      # ansible_become: yes
+      # ansible_become_method: enable
+    host_variables:
+      # loop through each device in this host group
+      # variable values here can reference to the host's properties or interfaces
+      # use $ to trigger NetBrain Intellisense Variables
+      # sample:
+      ansible_ssh_user: $credential.username
+      ansible_ssh_pass: $credential.password
+      # vendor: $device.vendor
+      # visible_intf: $interface._visible
+      # mgmt_intf: $device.management_interface
+
+  - name: 1841_TEST  # auto-generated, defined from UI
+    group_variables:
+      # enter group variables here...
+      # all variable values here should be constants (NetBrain Intellisense Variables are not supported)
+      # sample:
+      ansible_network_os: ios
+      # ansible_become: yes
+      # ansible_become_method: enable
+    host_variables:
+      # loop through each device in this host group
+      # variable values here can reference to the host's properties or interfaces
+      # use $ to trigger NetBrain Intellisense Variables
+      # sample:
+      ansible_ssh_user: $credential.username
+      ansible_ssh_pass: $credential.password
+      # vendor: $device.vendor
+      # visible_intf: $interface._visible
+      # mgmt_intf: $device.management_interface
+

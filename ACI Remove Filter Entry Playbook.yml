@@ -1,0 +1,19 @@
+- name: "Cisco ACI Remove Filter Subject"
+  hosts: all
+  gather_facts: no
+  connection: local
+ 
+  tasks:
+    - name: Remove a filter subject
+      aci_filter_entry:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        tenant: "NB.BOS"
+        entry: "TCP9000"
+        filter: "Web-Demo"
+        state: absent
+        use_ssl: no
+        dst_port: 9000
+        ether_type: ip
+        ip_protocol: tcp
