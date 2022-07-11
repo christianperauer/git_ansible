@@ -93,7 +93,7 @@
 
    - name: Reload the Device
      cli_command:
-       command: reload
+       command: 'reload'
        prompt:
          - confirm
        answer:
