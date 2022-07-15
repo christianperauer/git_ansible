@@ -1,0 +1,3 @@
+hostname: nx-leaf-3
+ansible_user: ansible
+ansible_password: ansible

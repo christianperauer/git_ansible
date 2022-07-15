@@ -1,0 +1,3 @@
+hostname: LAB-CON1
+ansible_user: cperauer
+ansible_password: Ale20012000
