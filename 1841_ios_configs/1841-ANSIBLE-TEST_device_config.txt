@@ -1,0 +1,157 @@
+Building configuration...
+
+Current configuration : 2664 bytes
+!
+! No configuration change since last restart
+version 15.1
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname 1841-ANSIBLE-TEST
+!
+boot-start-marker
+boot system flash c1841-advipservicesk9-mz.151-4.M9.bin
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+clock summer-time NYCDST recurring
+dot11 syslog
+ip source-route
+!
+!
+!
+!
+!
+ip cef
+no ip domain lookup
+ip domain name bcnnetworks.com
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+crypto pki token default removal timeout 0
+!
+!
+!
+!
+license udi pid CISCO1841 sn FTX1405YA3D
+archive
+ log config
+  hidekeys
+username cisco privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+controller Cellular 0/1
+!
+ip ssh version 2
+!
+class-map match-any NBAR-BULK-DATA-001
+class-map match-any REAL-TIME-INTERACTIVE
+ description CiscoTelepresence
+ match  dscp af41 
+ match access-group name MSTEAMS-VIDEO
+class-map match-any MISSION-CRITICAL
+ description Classify applications for DSCP AF31
+ match access-group name AF31_applications
+ match access-group name LYNC-SIGNALLING
+ match access-group name TEAMS-SIGNALLING
+class-map match-any NBAR-REAL-TIME-INTERACTIVE
+ match protocol tftp
+!
+! 
+!
+!
+!
+!
+!
+!
+interface Loopback104
+ no ip address
+!
+interface Loopback500
+ description test1
+ no ip address
+!
+interface Loopback1000
+ no ip address
+!
+interface FastEthernet0/0
+ description To LAB-NMS-SW1 Gi1/0/21 - TEMP THEN REMOVE
+ ip address 10.10.1.10 255.255.254.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ no ip address
+ shutdown
+ no fair-queue
+!
+interface Cellular0/1/0
+ no ip address
+ encapsulation ppp
+!
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+!
+!
+ip route 0.0.0.0 0.0.0.0 10.10.1.254
+!
+ip access-list extended MSTEAMS-VIDEO
+ permit udp any any eq 3480
+ permit udp any any range 50020 50039
+ permit udp any eq 3480 any
+ permit udp any range 50020 50039 any
+!
+!
+ip prefix-list FLASH-PROBE-TEST seq 10 permit 10.10.0.0/23
+!
+ip prefix-list TEST seq 10 permit 1.1.1.1/32
+access-list 12 permit 10.10.2.0 0.0.0.255 log
+access-list 12 permit 10.10.0.0 0.0.1.255 log
+!
+!
+!
+!
+snmp-server community CHRIS-HOME-LAB RO
+snmp-server community BCN@NETWORS RO
+snmp-server trap-source FastEthernet0/0
+snmp-server host 10.10.0.4 version 2c BCN@NETWORS 
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+ login local
+line aux 0
+line 0/1/0
+ no exec
+line vty 0 4
+ exec-timeout 0 0
+ logging synchronous
+ login local
+ transport input all
+line vty 5 15
+ exec-timeout 0 0
+ logging synchronous
+ login local
+ transport input all
+!
+scheduler allocate 20000 1000
+end

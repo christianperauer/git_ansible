@@ -1,0 +1,15 @@
+---
+- name: Archive Device Configurations
+  hosts: VxLAN-LAB
+  gather_facts: no
+  tasks:
+    - name: Gather Device Configuration
+      cisco.nxos.nxos_command:
+        commands: show run
+      register: device_config
+    - name: Save Per Device Configuration to TXT
+      ansible.builtin.copy:
+        content: "{{ device_config.stdout[0] }}"
+        dest: "./vxlan_device_configs/{{ inventory_hostname }}_device_config.txt"
+      delegate_to: localhost
+

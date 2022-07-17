@@ -1,0 +1,3 @@
+hostname: 1841-ANSIBLE-TEST 
+ansible_user: cisco
+ansible_password: cisco
