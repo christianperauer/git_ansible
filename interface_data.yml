@@ -1,0 +1,25 @@
+---
+10.10.10.3:
+  - interface: loopback123
+    ip: 123.1.2.3/32
+    description: Loopback interface for Ansible Testing
+10.10.10.4:
+  - interface: loopback123
+    ip: 123.1.2.4/32
+    description: Loopback interface for Ansible Testing
+10.10.10.5:
+  - interface: loopback123
+    ip: 123.1.2.5/32
+    description: Loopback interface for Ansible Testing
+10.10.10.6:
+  - interface: loopback123
+    ip: 123.1.2.6/32
+    description: Loopback interface for Ansible Testing
+10.10.10.1:
+  - interface: loopback123
+    ip: 123.1.2.7/32
+    description: Loopback interface for Ansible Testing
+10.10.10.2:
+  - interface: loopback123
+    ip: 123.1.2.8/32
+    description: Loopback interface for Ansible Testing
