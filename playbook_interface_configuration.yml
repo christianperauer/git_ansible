@@ -13,5 +13,5 @@
           - "ip address {{ item.ip }}"
           - "description {{ item.description }}"
         parents: "interface {{ item.interface }}"
-      with_items: "{{ interface_data[VxLAN-LAB] }}"
+      with_items: "{{ interface_data.'%s' }}"
 
