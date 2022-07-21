@@ -15,6 +15,6 @@
         state: present
         use_ssl: no
         validate_certs: no
-        dst_port: 9000
-        ether_type: ip
-        ip_protocol: tcp
+        dst_port: "9000"
+        ether_type: "ip"
+        ip_protocol: "tcp"
