@@ -1,5 +1,5 @@
 - name: "Cisco ACI Add Filter Subject"
-  hosts: all
+  hosts: ungrouped
   gather_facts: no
   connection: local
  
