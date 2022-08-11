@@ -1,0 +1,69 @@
+---
+
+- name: EPG and Contract Management
+  hosts: ungrouped
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+    - name: Query all Contracts
+      mso_schema_template_anp_epg_contract:
+        host: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        schema: Schema 1
+        template: Template 1
+        anp: ANP 1
+        state: query
+      delegate_to: localhost
+      register: query_result
+
+    - name: Check output
+      debug:
+        var: query_result
+
+
+    - name: Add a contract to an EPG
+      mso_schema_template_anp_epg_contract:
+        host: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        schema: Schema 1
+        template: Template 1
+        anp: ANP 1
+        epg: EPG 1
+        contract:
+          name: Contract 1
+          type: consumer
+          state: present
+      delegate_to: localhost
+
+    - name: Remove a Contract
+      mso_schema_template_anp_epg_contract:
+        host: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        schema: Schema 1
+        template: Template 1
+        anp: ANP 1
+        epg: EPG 1
+        contract:
+          name: Contract 1
+          state: absent
+      delegate_to: localhost
+
+    - name: Query a specific Contract
+      mso_schema_template_anp_epg_contract:
+        host: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        schema: Schema 1
+        template: Template 1
+        anp: ANP 1
+        epg: EPG 1
+        contract:
+          name: Contract 1
+          state: query
+      delegate_to: localhost
+      register: query_result
