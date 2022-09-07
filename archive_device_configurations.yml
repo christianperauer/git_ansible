@@ -1,6 +1,6 @@
 ---
 - name: Archive Device Configurations
-  hosts: 1841_IOS
+  hosts: 172_NAT_LAB
   gather_facts: no
   tasks:
     - name: Gather Device Configuration
@@ -10,6 +10,6 @@
     - name: Save Per Device Configuration to TXT
       ansible.builtin.copy:
         content: "{{ device_config.stdout[0] }}"
-        dest: "./1841_ios_configs/{{ inventory_hostname }}_device_config.txt"
+        dest: "./172_NAT_LAB/{{ inventory_hostname }}_device_config.txt"
       delegate_to: localhost
 

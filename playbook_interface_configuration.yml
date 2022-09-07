@@ -5,7 +5,7 @@
   tasks:
     - name: Import JSON data for NX Loopback interfaces config
       ansible.builtin.set_fact:
-        interface_data: "{{ lookup('file', 'interface_data.yml') | from_yaml }}"
+        interface_data: "{{ lookup('file', 'interface_data.json') | from_json }}"
     - name: Configure L3 interfaces on NXs
       cisco.nxos.nxos_config:
         lines:

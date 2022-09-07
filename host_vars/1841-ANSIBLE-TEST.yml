@@ -1,3 +1,4 @@
 hostname: 1841-ANSIBLE-TEST 
 ansible_user: cisco
 ansible_password: cisco
+ansible_network_os: ios

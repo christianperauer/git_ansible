@@ -1,0 +1,136 @@
+Building configuration...
+
+Current configuration : 2178 bytes
+!
+! Last configuration change at 07:28:57 EET Fri Aug 26 2022
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname NY13-MGMT-GW
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+username ansible privilege 15 password 0 ansible
+no aaa new-model
+clock timezone EET 2 0
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip domain-name bcnnetworks.com
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+lldp run
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback200
+ ip address 172.30.1.14 255.255.255.255
+ ip ospf 200 area 0
+!
+interface Port-channel1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Ethernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 1 mode active
+!
+interface Ethernet0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 1 mode active
+!
+interface Ethernet0/2
+!
+interface Ethernet0/3
+ no switchport
+ ip address 10.10.0.92 255.255.254.0
+!
+interface Ethernet1/0
+!
+interface Ethernet1/1
+!
+interface Ethernet1/2
+!
+interface Ethernet1/3
+!
+interface Vlan200
+ ip address 1.1.1.30 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf 200 area 0
+!
+router ospf 200
+ router-id 172.30.1.14
+ redistribute connected subnets route-map CONNECTED_MANAGEMENT_TO_LAN
+ passive-interface default
+ no passive-interface Vlan200
+!
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+ip prefix-list CONNECTED_MANAGEMENT_TO_LAN seq 10 permit 10.10.0.0/23
+!
+route-map CONNECTED_MANAGEMENT_TO_LAN permit 10
+ match ip address prefix-list CONNECTED_MANAGEMENT_TO_LAN
+!
+!
+snmp-server community BCN_NETWORKS RO
+snmp-server trap-source Loopback200
+snmp-server host 10.10.0.100 BCN_NETWORKS 
+snmp-server host 10.10.0.4 version 2c BCN_NETWORKS 
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ exec-timeout 0 0
+ login local
+ transport preferred ssh
+ transport input ssh
+!
+!
+!
+end

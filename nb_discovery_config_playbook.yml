@@ -1,0 +1,42 @@
+---
+- name: NB Discovery Base Configuration
+  hosts: 172_NAT_LAB
+  connection: ansible.netcommon.network_cli
+  gather_facts: 'no'
+  tasks:
+    - name: Enable LLDP and remove Domain Lookup
+      cisco.ios.ios_config:
+        lines:
+          - lldp run
+          - no ip domain lookup
+          - ip domain name bcnnetworks.com
+    - name: Configure Local Credentials
+      cisco.ios.ios_config:
+        lines:
+          - username ansible privilege 15 password ansible
+    - name: Adding SNMP Configuration
+      cisco.ios.ios_config:
+        lines:
+          - snmp-server host 10.10.0.4 traps version 2c BCN_NETWORKS
+          - snmp-server community BCN_NETWORKS RO
+          - snmp-server trap-source Loopback200
+          - snmp-server host 10.10.0.100 BCN_NETWORKS
+    - name: Configuring Console
+      cisco.ios.ios_config:
+        parents: line con 0
+        lines:
+          - exec-timeout 0 0
+          - logging synchronous
+    - name: Configuring Vty 0 4
+      cisco.ios.ios_config:
+        parents: line vty 0 4
+        lines:
+          - line vty 0 4
+          - exec-timeout 0 0
+          - login local
+          - transport preferred ssh
+          - transport input ssh
+
+
+ 
+

@@ -1,0 +1,123 @@
+Building configuration...
+
+Current configuration : 1750 bytes
+!
+! Last configuration change at 07:28:57 EET Fri Aug 26 2022
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname LAN-1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+username ansible privilege 15 password 0 ansible
+no aaa new-model
+clock timezone EET 2 0
+!
+!
+!
+!
+!
+vtp mode transparent
+no ip routing
+!
+!
+!
+ip domain-name bcnnetworks.com
+ip name-server 4.2.2.2
+ip name-server 8.8.8.8
+ip name-server 1.1.1.1
+no ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+!
+vlan 5,10-11,70,90,110 
+lldp run
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback200
+ description Mgmt Interface
+ ip address 172.30.1.13 255.255.255.255
+!
+interface Ethernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Ethernet0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Ethernet0/2
+!
+interface Ethernet0/3
+!
+interface Ethernet1/0
+!
+interface Ethernet1/1
+!
+interface Ethernet1/2
+!
+interface Ethernet1/3
+!
+interface Vlan10
+ ip address 10.60.10.50 255.255.255.0
+ no ip route-cache
+!
+ip default-gateway 10.60.10.3
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+snmp-server community BCN_NETWORKS RO
+snmp-server trap-source Loopback200
+snmp-server host 10.10.0.100 BCN_NETWORKS 
+snmp-server host 10.10.0.4 version 2c BCN_NETWORKS 
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ exec-timeout 0 0
+ login local
+ transport preferred ssh
+ transport input ssh
+!
+!
+!
+end
