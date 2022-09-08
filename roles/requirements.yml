@@ -1,5 +1,3 @@
 ---
-  #- name: cisco.nxos
-  #  version: 2.4.0
-  - name: cisco.asa
-    version: 2.1.0
+collections:
+    - cisco.asa

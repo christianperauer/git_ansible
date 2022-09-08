@@ -4,6 +4,10 @@
   hosts: ASA_LAB
   gather_facts: false
   tags: [secondary]
+
+  #collections:
+  #  - cisco.asa
+
   tasks:
 
     - name: Shutdown FW1 WAN Link
@@ -17,6 +21,10 @@
   hosts: ISP_CONN
   gather_facts: false
   tags: [terciary]
+
+  #collections:
+  #  - cisco.asa
+
   tasks:
 
     - name: Shutdown FW1 WAN Link
@@ -38,6 +46,9 @@
   gather_facts: false
   tags: [allpaths]
   tasks:
+
+  #collections:
+  #  - cisco.asa
 
     - name: Restore FW1 WAN Link
       cisco.asa.asa_config:
