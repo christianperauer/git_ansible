@@ -1,0 +1,61 @@
+---
+
+- name: Failover FW1 ISP Traffic
+  hosts: ASA_LAB
+  gather_facts: false
+  tags: [secondary]
+  tasks:
+
+    - name: Shutdown FW1 WAN Link
+      cisco.asa.asa_config:
+        lines:
+          - shutdown
+        parents: interface GigabitEthernet0/0
+      when:
+        - ansible_network_os == "asa"
+
+- name: Failover FW1 and PE1 Traffic
+  hosts: ISP_CONN
+  gather_facts: false
+  tags: [terciary]
+  tasks:
+
+    - name: Shutdown FW1 WAN Link
+      cisco.asa.asa_config:
+        lines:
+          - shutdown
+        parents: interface GigabitEthernet0/0
+      when:
+        - ansible_network_os == "asa"
+        -
+    - name: Shutdown PE1 Backhaul
+      cisco.ios.ios_config:
+        lines:
+          - shutdown
+        parents: interface Ethernet0/2
+      when:
+        - ansible_network_os == "ios"
+
+- name: Restore all ISP Traffic
+  hosts: ASA_LAB
+  gather_facts: false
+  tags: [allpaths]
+  tasks:
+
+    - name: Restore FW1 WAN Link
+      cisco.asa.asa_config:
+        lines:
+          - no shutdown
+        parents: interface GigabitEthernet0/0
+      when:
+        - ansible_network_os == "asa"
+
+    - name: Restore PE1 Backhaul
+      cisco.ios.ios_config:
+        lines:
+          - no shutdown
+        parents: interface Ethernet0/2
+      when:
+        - ansible_network_os == "ios"
+
+
