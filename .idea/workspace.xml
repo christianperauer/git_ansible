@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef9421e3-74df-4dc5-b688-b7a89cc746e3" name="Default Changelist" comment="Playbook to failover NAT LAB internet links">
-      <change beforePath="$PROJECT_DIR$/roles/requirements.yml" beforeDir="false" afterPath="$PROJECT_DIR$/roles/requirements.yml" afterDir="false" />
-    </list>
+    <list default="true" id="ef9421e3-74df-4dc5-b688-b7a89cc746e3" name="Default Changelist" comment="Playbook to failover NAT LAB internet links" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,20 +37,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/inet_links_failover.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-59">
-              <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+            <state relative-caret-position="741">
+              <caret line="54" selection-start-line="54" selection-end-line="54" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/roles/requirements.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="125">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
+              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
             </state>
           </provider>
         </entry>
@@ -67,8 +65,8 @@
       <list>
         <option value="$PROJECT_DIR$/interface_data.json" />
         <option value="$PROJECT_DIR$/inventory.yml" />
-        <option value="$PROJECT_DIR$/inet_links_failover.yml" />
         <option value="$PROJECT_DIR$/roles/requirements.yml" />
+        <option value="$PROJECT_DIR$/inet_links_failover.yml" />
       </list>
     </option>
   </component>
@@ -89,11 +87,6 @@
             <path>
               <item name="git_ansible" type="b2602c69:ProjectViewProjectNode" />
               <item name="git_ansible" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="git_ansible" type="b2602c69:ProjectViewProjectNode" />
-              <item name="git_ansible" type="462c0819:PsiDirectoryNode" />
-              <item name="roles" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -148,7 +141,7 @@
     <frame x="177" y="0" width="1692" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2496977" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2496977" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -205,17 +198,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/inet_links_failover.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-59">
-          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/roles/requirements.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inet_links_failover.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="741">
+          <caret line="54" selection-start-line="54" selection-end-line="54" />
         </state>
       </provider>
     </entry>
