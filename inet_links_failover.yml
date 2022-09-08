@@ -22,8 +22,8 @@
   gather_facts: false
   tags: [terciary]
 
-  #collections:
-  #  - cisco.asa
+  collections:
+    - cisco.asa
 
   tasks:
 
