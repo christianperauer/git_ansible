@@ -1,3 +1,4 @@
 ---
 collections:
 - cisco.asa
+- cisco.ios
