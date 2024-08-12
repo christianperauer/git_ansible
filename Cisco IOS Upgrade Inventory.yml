@@ -25,12 +25,12 @@ host_groups:
       # visible_intf: $interface._visible
       # mgmt_intf: $device.management_interface
 
-  - name: 1841_TEST  # auto-generated, defined from UI
+  - name: Arista_Switches  # auto-generated, defined from UI
     group_variables:
       # enter group variables here...
       # all variable values here should be constants (NetBrain Intellisense Variables are not supported)
       # sample:
-      ansible_network_os: ios
+      ansible_network_os: eos
       # ansible_become: yes
       # ansible_become_method: enable
     host_variables:
