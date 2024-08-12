@@ -1,6 +1,6 @@
 ---
 
-- hosts: arista_devices
+- hosts: ARISTA_SINGLE
   gather_facts: no
   tasks:
   - name: Configure Login Banner

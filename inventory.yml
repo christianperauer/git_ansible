@@ -65,6 +65,34 @@ ansible_user=cisco
 ansible_password="cisco"
 ansible_network_os=ios
 
+[ARISTA_DEVICES]
+core1.cdh ansible_host=10.10.100.45
+core1.ibc ansible_host=10.10.100.33
+core1.la ansible_host=10.10.100.37
+core2.cdh ansible_host=10.10.100.29
+core2.ibc ansible_host=10.10.100.49
+core2.la ansible_host=10.10.100.41
+dist1.cdh ansible_host=10.10.100.9
+dist1.ibc ansible_host=10.10.100.1
+dist2.cdh ansible_host=10.10.100.17
+dist2.ibc ansible_host=10.10.100.5
+mcast-feed ansible_host=10.10.100.21
+mcast-req ansible_host=10.10.100.13
+mcast-switch ansible_host=10.10.100.25
+
+[ARISTA_DEVICES:vars]
+ansible_user=admin
+ansible_password="admin"
+ansible_network_os=eos
+
+[ARISTA_SINGLE]
+core1.cdh ansible_host=10.10.100.45
+
+[ARISTA_SINGLE:vars]
+ansible_user=admin
+ansible_password="admin"
+ansible_network_os=eos
+
 #[VxLAN-LAB:vars]
 #ansible_user=admin
 #ansible_password=""
