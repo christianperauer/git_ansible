@@ -85,6 +85,14 @@ ansible_user=admin
 ansible_password="admin"
 ansible_network_os=eos
 
+[BCN]
+lab-nms-sw1 ansible_host=10.10.0.10
+
+[BCN:vars]
+ansible_user=ansible
+ansible_password="ansible"
+ansible_network_os=ios
+
 [ARISTA_SINGLE]
 core1.cdh ansible_host=10.10.100.45
 
@@ -92,6 +100,20 @@ core1.cdh ansible_host=10.10.100.45
 ansible_user=admin
 ansible_password="admin"
 ansible_network_os=eos
+
+[FWC_SWITCHES]
+mgmt-sw1 ansible_host=10.10.100.26
+mgmt-sw2 ansible_host=10.10.100.2
+mgmt-sw3 ansible_host=10.10.100.30
+mgmt-sw34 ansible_host=90.90.90.1
+mgmt-sw35 ansible_host=90.90.90.2
+mgmt-sw36 ansible_host=90.90.90.3
+mgmt-sw37 ansible_host=90.90.90.4
+
+[FWC_SWITCHES:vars]
+ansible_user=cisco
+ansible_password="cisco"
+ansible_network_os=ios
 
 #[VxLAN-LAB:vars]
 #ansible_user=admin
