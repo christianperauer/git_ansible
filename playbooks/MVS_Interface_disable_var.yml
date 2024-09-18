@@ -1,0 +1,63 @@
+---
+- hosts: "{{ variable_host | default('ARISTA_SINGLE') }}"
+  gather_facts: no  # Action needed to determine the OS type
+  tasks:
+
+  - name: Shutdown Interface on Arista EOS Device
+    arista.eos.eos_interfaces:
+      config:
+        - name: "{{ Intf_Name }}"
+          description: "Shutdown by Automation"
+          enabled: False
+    when: ansible_network_os == 'eos'
+
+  - name: Shutdown Juniper Device Interface
+    junipernetworks.junos.junos_interfaces:
+      config:
+        - name: "{{ Intf_Name }}"
+          description: "Shutdown by Automation"
+          enabled: False
+          units:
+            # - name: 0
+            #   description: "Shutdown by Automation"
+    when: ansible_network_os == 'Junos'
+
+  # Commenting all the Codeblock below to navigate around the IOS virtual device command error
+  # Apparently the command couldnt run due to privilege 15 was not configured
+  - name: Shutdown Cisco IOS / XE Device Interface
+    cisco.ios.ios_interfaces:
+      config:
+        - name: "{{ Intf_Name }}"
+          description: "Shutdown by Automation"
+          enabled: False
+    when: ansible_network_os == 'ios'
+
+  # Using the below Code block avoiding Interfaces Module and using Command module instead
+  # This command also cannot run due to: "msg": "operation requires privilege escalation"
+  # - name: Shutdown Cisco IOS / XE Device Interface Using Command
+  #   cisco.ios.ios_config:
+  #     lines:
+  #       - interface {{ Intf_Name }}
+  #       - description Shutdown by Automation
+  #       - shutdown
+  #   when: ansible_network_os == 'ios'
+
+  - name: Shutdown Cisco IOS-XR Device Interface
+    cisco.iosxr.iosxr_interfaces:
+      config:
+        - name: "{{ Intf_Name }}"
+          description: "Shutdown by Automation"
+          enabled: False
+    when: ansible_network_os == 'iosxr'
+
+  - name: Shutdown Cisco NX-OS Device Interface
+    cisco.nxos.nxos_interfaces:
+      config:
+        - name: "{{ Intf_Name }}"
+          description: "Shutdown by Automation"
+          enabled: False
+    when: ansible_network_os == 'nxos'
+
+  - name: Debug the Network OS
+    debug:
+      var: ansible_network_os | default('Unknown')

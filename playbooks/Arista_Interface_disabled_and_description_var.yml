@@ -1,0 +1,21 @@
+---
+
+- hosts: "{{ variable_host | default('ARISTA_SINGLE') }}"
+  gather_facts: no
+  tasks:
+  - name: Disabling Interface and adding Decription
+    arista.eos.eos_interfaces:
+      config:
+        - name: "{{ Intf_Name }}"
+          # description: UNUSED - NOT CONNECTED
+          enabled: False
+
+  
+  - name: Verify Interface Configuration
+    arista.eos.eos_command:
+      commands: show running-config interfaces {{ Intf_Name }}
+    register: sh_outputs
+  
+  - name: Show New Interfaces Config
+    debug:
+      msg: "{{sh_outputs}}"
