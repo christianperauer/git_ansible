@@ -27,7 +27,31 @@
       banner: motd
       text: |
         ****************************************************************************
-        *                This is a BCN Networks managed device                     *
+        *                This is a COMPANY Networks managed device                 *
+        *                                                                          *
+        * Changes to the device configuration should be authorized through the     *
+        * processes outlined by the ITS Network Services team.                     *
+        ****************************************************************************
+      state: present
+
+  - name: Configure Banner INCOMING
+    ios_banner:
+      banner: incoming
+      text: |
+        ****************************************************************************
+        *                This is a COMPANY Networks managed device                 *
+        *                                                                          *
+        * Changes to the device configuration should be authorized through the     *
+        * processes outlined by the ITS Network Services team.                     *
+        ****************************************************************************
+      state: present
+
+  - name: Configure Banner EXEC
+    ios_banner:
+      banner: exec
+      text: |
+        ****************************************************************************
+        *                This is a BCOMPANY Networks managed device                *
         *                                                                          *
         * Changes to the device configuration should be authorized through the     *
         * processes outlined by the ITS Network Services team.                     *
