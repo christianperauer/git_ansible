@@ -1,3 +1,0 @@
-# Ignore Python Virtual Environment
-ansible_venv/
-.*
