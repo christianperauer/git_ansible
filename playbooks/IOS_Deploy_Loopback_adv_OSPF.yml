@@ -1,0 +1,48 @@
+---
+- hosts: "{{ variable_host | default('CISCO_IOS') }}"
+  gather_facts: no  # Action needed to determine the OS type
+  tasks:
+
+  # Create, deploy and configure a new Loopback interface to be advertised via OSPF
+  - name: Deploying new Loopback Interface Cisco IOS/XE
+    cisco.ios.ios_interfaces:
+      config:
+        - name: "{{ Intf_Name }}"
+          description: "NetBrain Managed Loopback"
+          enabled: true
+          ipv4:
+            address: "{{ ip_address }}"
+            mask: "{{ address_mask }}" # Address mask expected in dotted notation
+      state: merged
+    when: ansible_network_os == 'ios'
+
+  # Verify if there is an existing OSPF Process running and if so, capture ID
+  - name: Verifying if OSPF process exists
+    cisco.ios.ios_command:
+      commands:
+        - show ip ospf
+    register: ospf_output
+    failed_when: "'Process ID' not in ospf_output.stdout[0]"
+    when: ansible_network_os == 'ios'
+
+  # Extract OSPF Process ID
+  - name: Extracting OSPF process ID if any
+    set_fact:
+      ospf_process_id: "{{ ospf_output.stdout[0] | regex_search('Process ID (\\d+)', '\\1') }}"
+
+  # If OSPF Process exists, then advertise the new Loopback Interface
+  - name: Advertising the new Loopback into OSPF
+    cisco.ios.ios_config:
+      lines:
+        - router ospf {{ ospf_process_id }}
+        - network "{{ ip_address }}" 0.0.0.0 area 0
+    when: ospf_process_id is defined
+
+  # If no OSPF Process existing, remove configured Loopback
+  - name: Reverting Loopback Interface Change (If no OSPF process found)
+    cisco.ios.ios_interfaces:
+      config:
+        - name: "{{ Intf_Name }}"
+          enabled: false
+      state: merged
+    when: ospf_process_id is not defined
