@@ -20,7 +20,7 @@
     register: ospf_output
     when: 
       - ansible_network_os == 'ios'
-      - "'Routing Process' in ospf_output.stdout[0]"
+      # - "'Routing Process' in ospf_output.stdout[0]"
 
   # Extract OSPF Process ID
   - name: Extracting OSPF process ID if any

@@ -120,7 +120,7 @@ ansible_network_os=ios
 #ansible_password=""
 
 [CISCO_IOS]
-# custa-r3 ansible_host=90.90.90.27
+custa-r3 ansible_host=90.90.90.27
 custb-r1 ansible_host=90.90.90.14
 
 [CISCO_IOS:vars]
