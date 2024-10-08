@@ -18,13 +18,15 @@
       commands:
         - show ip ospf
     register: ospf_output
-    failed_when: "'Process ID' not in ospf_output.stdout[0]"
-    when: ansible_network_os == 'ios'
+    when: 
+      - ansible_network_os == 'ios'
+      - "'Routing Process' in ospf_output.stdout[0]"
 
   # Extract OSPF Process ID
   - name: Extracting OSPF process ID if any
     set_fact:
-      ospf_process_id: "{{ ospf_output.stdout[0] | regex_search('Process ID (\\d+)', '\\1') }}"
+      ospf_process_id: "{{ ospf_output.stdout[0] | regex_search('Routing Process \"ospf (\\d+)', '\\1') }}"
+    when: "'Routing Process' in ospf_output.stdout[0]"
 
   # If OSPF Process exists, then advertise the new Loopback Interface
   - name: Advertising the new Loopback into OSPF
