@@ -7,8 +7,8 @@
   - name: Deploying new Loopback Interface Cisco IOS/XE
     cisco.ios.ios_config:
       lines:
-      - description NetBrain Ansible Managed Loopback
-      - ip address "{{ ip_address }}" 255.255.255.255 # Address mask expected in dotted notation
+      - "description NetBrain Ansible Managed Loopback"
+      - "ip address {{ ip_address }} 255.255.255.255" # Address mask expected in dotted notation
       parents: "interface {{ Intf_Name }}"
     when: ansible_network_os == 'ios'
 
@@ -32,8 +32,8 @@
   - name: Advertising the new Loopback into OSPF
     cisco.ios.ios_config:
       lines:
-        - router ospf {{ ospf_process_id }}
-        - network "{{ ip_address }}" 0.0.0.0 area 0
+        - "router ospf {{ ospf_process_id }}"
+        - "network {{ ip_address }} 0.0.0.0 area 0"
     when: ospf_process_id is defined
 
   # If no OSPF Process existing, remove configured Loopback
