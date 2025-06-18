@@ -9,7 +9,7 @@
       lines:
       - description NetBrain Ansible Managed Loopback
       - ip address "{{ ip_address }}" 255.255.255.255 # Address mask expected in dotted notation
-      parents: interface "{{ Intf_Name }}"
+      parents: "interface {{ Intf_Name }}"
     when: ansible_network_os == 'ios'
 
   # Verify if there is an existing OSPF Process running and if so, capture ID
