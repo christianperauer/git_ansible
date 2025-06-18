@@ -1,7 +1,7 @@
 ---
 
 - name: EPG and Contract Management
-  hosts: ungrouped
+  hosts: apic
   connection: local
   gather_facts: false
 

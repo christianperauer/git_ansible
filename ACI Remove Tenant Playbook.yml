@@ -1,6 +1,6 @@
 ---
 
-- name: Deploy New ACI Tenant
+- name: Remove Existing ACI Tenant
   hosts: apic
   connection: local
   gather_facts: False
@@ -10,22 +10,22 @@
     tenant: "{{ input_tenant }}"
     vrf: "{{ input_vrf }}"
   tasks:
-   - name: Deploying Tenant Object
+   - name: Removing Tenant Object
      aci_tenant:
        host: "{{ inventory_hostname }}"
        username: "{{ username }}"
        password: "{{ password }}"
-       state: "present"
+       state: "absent"
        validate_certs: False
        #validate_certs: no
        tenant: "{{ tenant }}"
 
-   - name: Deploying Application Profile Object
+   - name: Removing Application Profile Object
      aci_ap:
        host: "{{ inventory_hostname }}"
        username: "{{ username }}"
        password: "{{ password }}"
-       state: "present"
+       state: "absent"
        validate_certs: False
        #validate_certs: no
        tenant: "{{ tenant }}"
@@ -33,24 +33,24 @@
      with_items:
        - ansible_app-ap
 
-   - name: Deploying VRF Object
+   - name: Removing VRF Object
      aci_vrf:
        host: "{{ inventory_hostname }}"
        username: "{{ username }}"
        password: "{{ password }}"
-       state: "present"
+       state: "absent"
        validate_certs: False
        #validate_certs: no
        tenant: "{{ tenant }}"
        vrf: "{{ vrf }}"
        description: "{{ vrf }}"
 
-   - name: Deploying Bridge Domain Object 
+   - name: Removing Bridge Domain Object 
      aci_bd:
        host: "{{ inventory_hostname }}"
        username: "{{ username }}"
        password: "{{ password }}"
-       state: "present"
+       state: "absent"
        validate_certs: False
        #validate_certs: no
        tenant: "{{ tenant }}"
@@ -59,12 +59,12 @@
        - "ansible_app-bd"
        
 # create 2 subnets tie to bridge domain
-   - name: Deploying Tenant Subnets
+   - name: Removing Tenant Subnets
      aci_bd_subnet:
        host: "{{ inventory_hostname }}"
        username: "{{ username }}"
        password: "{{ password }}"
-       state: "present"
+       state: "absent"
        validate_certs: False
        #validate_certs: no
        tenant: "{{ tenant }}"
@@ -76,12 +76,12 @@
        - { bd: "ansible_app-bd", gateway: "10.1.1.1", mask: "24", scope: public}
        - { bd: "ansible_app-bd", gateway: "10.1.2.1", mask: "24", scope: public}
 
-   - name: Deploying EPG Objects
+   - name: Removing EPG Objects
      aci_epg:
        host: "{{ inventory_hostname }}"
        username: "{{ username }}"
        password: "{{ password }}"
-       state: "present"
+       state: "absent"
        validate_certs: False
        #validate_certs: no
        tenant: "{{ tenant }}"
