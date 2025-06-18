@@ -6,7 +6,6 @@
   gather_facts: False
   
   vars: 
-    # Dynamic Tenant and VRF name
     tenant: "{{ input_tenant }}"
     vrf: "{{ input_vrf }}"
   tasks:
@@ -17,7 +16,6 @@
        password: "{{ password }}"
        state: "present"
        validate_certs: False
-       #validate_certs: no
        tenant: "{{ tenant }}"
 
    - name: Deploying Application Profile Object
@@ -27,7 +25,6 @@
        password: "{{ password }}"
        state: "present"
        validate_certs: False
-       #validate_certs: no
        tenant: "{{ tenant }}"
        ap: "{{ item }}"
      with_items:
@@ -40,7 +37,6 @@
        password: "{{ password }}"
        state: "present"
        validate_certs: False
-       #validate_certs: no
        tenant: "{{ tenant }}"
        vrf: "{{ vrf }}"
        description: "{{ vrf }}"
@@ -52,7 +48,6 @@
        password: "{{ password }}"
        state: "present"
        validate_certs: False
-       #validate_certs: no
        tenant: "{{ tenant }}"
        bd: "{{ item }}"
      with_items:
@@ -66,7 +61,6 @@
        password: "{{ password }}"
        state: "present"
        validate_certs: False
-       #validate_certs: no
        tenant: "{{ tenant }}"
        bd: "{{ item.bd }}"
        gateway: "{{ item.gateway }}"
@@ -83,7 +77,6 @@
        password: "{{ password }}"
        state: "present"
        validate_certs: False
-       #validate_certs: no
        tenant: "{{ tenant }}"
        bd: "{{ item.bd }}"
        epg: "{{ item.epg}}"
