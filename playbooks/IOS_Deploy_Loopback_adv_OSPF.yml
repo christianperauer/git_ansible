@@ -25,7 +25,7 @@
   # Extract OSPF Process ID
   - name: Extracting OSPF process ID if any
     set_fact:
-      ospf_process_id: "{{ ospf_output.stdout[0] | regex_search('Routing Process \"ospf (\\d+)', '\\1') }}"
+      ospf_process_id: "{{ (ospf_output.stdout[0] | regex_search('Routing Process \\\"ospf (\\d+)', '\\1')) | string }}"
     when: "'Routing Process' in ospf_output.stdout[0]"
 
   # If OSPF Process exists, then advertise the new Loopback Interface
