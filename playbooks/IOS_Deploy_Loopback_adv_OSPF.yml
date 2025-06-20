@@ -22,18 +22,33 @@
       - ansible_network_os == 'ios'
       # - "'Routing Process' in ospf_output.stdout[0]"
 
-  # Extract OSPF Process ID
-  - name: Extracting OSPF process ID if any
+  # Extract OSPF Process Line
+  - name: Extract OSPF process line if exists
     set_fact:
-      ospf_process_id: "{{ (ospf_output.stdout[0] | regex_search('Routing Process \\\"ospf (\\d+)', '\\1')) | string }}"
-    when: "'Routing Process' in ospf_output.stdout[0]"
+      ospf_process_line: "{{ (ospf_output.stdout_lines[0] | select('search', 'Routing Process.*ospf') | list | default([])) | first | default('') }}"
+    #when: "'Routing Process' in ospf_output.stdout[0]"
+
+  # Extract OSPF process ID from line if it exists
+  - name: Extract OSPF process ID from line if it exists
+    set_fact:
+      ospf_process_id: "{{ (ospf_process_line | regex_search('ospf (\\d+)', '\\1')) | default('') }}"
+    when: ospf_process_line != ''
+
+  # Print the captured OSPF process data (UNCOMMENT FOR DEBUGGIN PURPOSES)
+  #- name: Print captured OSPF Process ID
+  #  debug:
+  #    msg: 
+  #      - "OSPF process line: {{ ospf_process_line }}"
+  #      - "OSPF process ID: {{ ospf_process_id[0] | default('not found') }}"
+  #  when: ospf_process_id is defined and ospf_process_id != ''
 
   # If OSPF Process exists, then advertise the new Loopback Interface
   - name: Advertising the new Loopback into OSPF
     cisco.ios.ios_config:
       lines:
-        - "router ospf {{ ospf_process_id }}"
+        #- "router ospf {{ ospf_process_id[0] }}"
         - "network {{ ip_address }} 0.0.0.0 area 0"
+      parents: "router ospf {{ ospf_process_id[0] }}"
     when: ospf_process_id is defined
 
   # If no OSPF Process existing, remove configured Loopback
